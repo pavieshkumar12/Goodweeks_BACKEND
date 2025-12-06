@@ -14,9 +14,12 @@ export const addMarkup = async (req, res,next) => {
   }
 };
 
-export const getMarkups = async (req, res,next) => {
+export const getMarkups = async (req, res, next) => {
   try {
-    const result = await listMarkups();
+    const page = parseInt(req.query.page) || 1;
+    const limit = 20;
+    const offset = (page - 1) * limit;
+    const result = await listMarkups(limit, offset);
     res.json({ success: true, data: result });
   } catch (err) {
     next(err)
